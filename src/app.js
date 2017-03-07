@@ -469,6 +469,44 @@ app.post('/webhook/', (req, res) => {
 
 });
 
+// ask the bot to print the messages directly
+app.post('/output/', (req, res) => {
+  try {
+      const req = JSONbig.parse(req.body);
+
+      console.log('\output request: ', req.body);
+
+      let responseText = req.speech;
+      let responseData = req.data;
+      let responseMessages = req.messages;
+
+      if (this.isDefined(responseData) && this.isDefined(responseData.facebook)) {
+          let facebookResponseData = responseData.facebook;
+          this.doDataResponse(sender, facebookResponseData);
+      } else if (this.isDefined(responseMessages) && responseMessages.length > 0) {
+          this.doRichContentResponse(sender, responseMessages);
+      }
+      else if (this.isDefined(responseText)) {
+          this.doTextResponse(sender, responseText);
+      }
+
+      return res.status(200).json({
+          status: "ok"
+      });
+  } catch (err) {
+      return res.status(400).json({
+          status: "error",
+          error: err
+      });
+  }
+}
+
+app.post('/event/', (req, res) => {
+  return res.status(200).json({
+      status: "ok"
+  });
+}
+
 app.listen(REST_PORT, () => {
     console.log('Rest service ready on port ' + REST_PORT);
 });
