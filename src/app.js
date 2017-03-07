@@ -483,23 +483,24 @@ app.post('/output/', (req, res) => {
       let responseData = body.fulfillment.data;
       let responseMessages = body.fulfillment.messages;
 
-      if (this.isDefined(responseData) && this.isDefined(responseData.facebook)) {
+      if (isDefined(responseData) && isDefined(responseData.facebook)) {
           console.log('\nfacebook specific message!\n');
           let facebookResponseData = responseData.facebook;
-          this.doDataResponse(sender, facebookResponseData);
-      } else if (this.isDefined(responseMessages) && responseMessages.length > 0) {
+          facebookBot.doDataResponse(sender, facebookResponseData);
+      } else if (isDefined(responseMessages) && responseMessages.length > 0) {
           console.log('\nmessages!\n');
-          this.doRichContentResponse(sender, responseMessages);
+          facebookBot.doRichContentResponse(sender, responseMessages);
       }
-      else if (this.isDefined(responseText)) {
+      else if (isDefined(responseText)) {
           console.log('\nresponse text!\n');
-          this.doTextResponse(sender, responseText);
+          facebookBot.doTextResponse(sender, responseText);
       }
 
       return res.status(200).json({
           status: "ok"
       });
   } catch (err) {
+
       return res.status(400).json({
           status: "error",
           error: err
@@ -516,5 +517,17 @@ app.post('/event/', (req, res) => {
 app.listen(REST_PORT, () => {
     console.log('Rest service ready on port ' + REST_PORT);
 });
+
+isDefined(obj) {
+    if (typeof obj == 'undefined') {
+        return false;
+    }
+
+    if (!obj) {
+        return false;
+    }
+
+    return obj != null;
+}
 
 facebookBot.doSubscribeRequest();
