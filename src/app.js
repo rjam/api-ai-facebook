@@ -472,13 +472,13 @@ app.post('/webhook/', (req, res) => {
 // ask the bot to print the messages directly
 app.post('/output/', (req, res) => {
   try {
-      const req = JSONbig.parse(req.body);
+      const body = JSONbig.parse(req.body);
 
-      console.log('\output request: ', req.body);
+      console.log('\output request: ', body);
 
-      let responseText = req.speech;
-      let responseData = req.data;
-      let responseMessages = req.messages;
+      let responseText = body.speech;
+      let responseData = body.data;
+      let responseMessages = body.messages;
 
       if (this.isDefined(responseData) && this.isDefined(responseData.facebook)) {
           let facebookResponseData = responseData.facebook;
