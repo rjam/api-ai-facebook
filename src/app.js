@@ -474,21 +474,25 @@ app.post('/output/', (req, res) => {
   try {
       const body = JSONbig.parse(req.body);
 
-      console.log('\output request: ', req.body);
+      console.log('\noutput request: ', req.body);
 
-      // this is required!
+      // fulfillment and sender are required at root lvl
       let sender = body.sender;
+
       let responseText = body.fulfillment.speech;
       let responseData = body.fulfillment.data;
       let responseMessages = body.fulfillment.messages;
 
       if (this.isDefined(responseData) && this.isDefined(responseData.facebook)) {
+          console.log('\nfacebook specific message!\n');
           let facebookResponseData = responseData.facebook;
           this.doDataResponse(sender, facebookResponseData);
       } else if (this.isDefined(responseMessages) && responseMessages.length > 0) {
+          console.log('\nmessages!\n');
           this.doRichContentResponse(sender, responseMessages);
       }
       else if (this.isDefined(responseText)) {
+          console.log('\nresponse text!\n');
           this.doTextResponse(sender, responseText);
       }
 
