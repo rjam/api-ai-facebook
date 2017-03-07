@@ -474,11 +474,13 @@ app.post('/output/', (req, res) => {
   try {
       const body = JSONbig.parse(req.body);
 
-      console.log('\output request: ', body);
+      console.log('\output request: ', req.body);
 
-      let responseText = body.speech;
-      let responseData = body.data;
-      let responseMessages = body.messages;
+      // this is required!
+      let sender = body.sender;
+      let responseText = body.fulfillment.speech;
+      let responseData = body.fulfillment.data;
+      let responseMessages = body.fulfillment.messages;
 
       if (this.isDefined(responseData) && this.isDefined(responseData.facebook)) {
           let facebookResponseData = responseData.facebook;
