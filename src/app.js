@@ -499,13 +499,13 @@ app.post('/output/', (req, res) => {
           error: err
       });
   }
-}
+});
 
 app.post('/event/', (req, res) => {
   return res.status(200).json({
       status: "ok"
   });
-}
+});
 
 app.listen(REST_PORT, () => {
     console.log('Rest service ready on port ' + REST_PORT);
