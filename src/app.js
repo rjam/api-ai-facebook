@@ -255,6 +255,7 @@ class FacebookBot {
             }
 
             console.log("Sender: ", sender);
+            console.log("SessionId: ", this.sessionIds.get(sender)); 
             console.log("Text: ", text);
 
             let apiaiRequest = this.apiAiService.textRequest(text,
