@@ -518,7 +518,7 @@ app.listen(REST_PORT, () => {
     console.log('Rest service ready on port ' + REST_PORT);
 });
 
-isDefined(obj) {
+function isDefined(obj) {
     if (typeof obj == 'undefined') {
         return false;
     }
