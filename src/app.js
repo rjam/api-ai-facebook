@@ -254,7 +254,7 @@ class FacebookBot {
                 this.sessionIds.set(sender, uuid.v4());
             }
 
-            console.log("Sender: ", sender);
+            console.log("\nSender: ", sender);
             console.log("SessionId: ", this.sessionIds.get(sender));
             console.log("Text: ", text);
 
@@ -268,8 +268,9 @@ class FacebookBot {
                 });
 
             apiaiRequest.on('response', (response) => {
-                console.log("api.ai processing response: ", response);
-                console.log("api.ai processing result: ", response.result);
+                // here we receive the response from api.ai's processing
+                console.log("\napi.ai processing response:\n", response);
+
                 if (this.isDefined(response.result) && this.isDefined(response.result.fulfillment)) {
                     let responseText = response.result.fulfillment.speech;
                     let responseData = response.result.fulfillment.data;
@@ -436,7 +437,10 @@ app.post('/webhook/', (req, res) => {
     try {
         const data = JSONbig.parse(req.body);
 
-        console.log('webhook request: ', req.body);
+        // here we receive the input from the user..we're going to
+        // post that to api.ai for processing before receiving
+        // and printing the replies
+        console.log('\nwebhook request: ', req.body);
 
         if (data.entry) {
             let entries = data.entry;
