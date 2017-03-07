@@ -255,7 +255,7 @@ class FacebookBot {
             }
 
             console.log("Sender: ", sender);
-            console.log("SessionId: ", this.sessionIds.get(sender)); 
+            console.log("SessionId: ", this.sessionIds.get(sender));
             console.log("Text: ", text);
 
             let apiaiRequest = this.apiAiService.textRequest(text,
@@ -433,6 +433,8 @@ app.get('/webhook/', (req, res) => {
 app.post('/webhook/', (req, res) => {
     try {
         const data = JSONbig.parse(req.body);
+
+        console.log('webhook request: ', req.body);
 
         if (data.entry) {
             let entries = data.entry;
