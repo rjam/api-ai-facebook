@@ -254,7 +254,8 @@ class FacebookBot {
                 this.sessionIds.set(sender, uuid.v4());
             }
 
-            console.log("Text", text);
+            console.log("Sender: ", sender);
+            console.log("Text: ", text);
 
             let apiaiRequest = this.apiAiService.textRequest(text,
                 {
