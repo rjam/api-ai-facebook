@@ -476,7 +476,7 @@ app.post('/output/', (req, res) => {
 
       console.log('\noutput request: ', req.body);
 
-      // fulfillment and sender are required at root lvl
+      // TODO protect this: fulfillment and sender are required at root lvl
       let sender = body.sender;
 
       let responseText = body.fulfillment.speech;
@@ -484,15 +484,12 @@ app.post('/output/', (req, res) => {
       let responseMessages = body.fulfillment.messages;
 
       if (isDefined(responseData) && isDefined(responseData.facebook)) {
-          console.log('\nfacebook specific message!\n');
           let facebookResponseData = responseData.facebook;
           facebookBot.doDataResponse(sender, facebookResponseData);
       } else if (isDefined(responseMessages) && responseMessages.length > 0) {
-          console.log('\nmessages!\n');
           facebookBot.doRichContentResponse(sender, responseMessages);
       }
       else if (isDefined(responseText)) {
-          console.log('\nresponse text!\n');
           facebookBot.doTextResponse(sender, responseText);
       }
 
@@ -506,12 +503,6 @@ app.post('/output/', (req, res) => {
           error: err
       });
   }
-});
-
-app.post('/event/', (req, res) => {
-  return res.status(200).json({
-      status: "ok"
-  });
 });
 
 app.listen(REST_PORT, () => {
