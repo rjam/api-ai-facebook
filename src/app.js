@@ -267,7 +267,7 @@ class FacebookBot {
                     }
                 });
 
-            apiaiRequest.on('response', (response) => this.handleApiAiResponse(response));
+            apiaiRequest.on('response', (response) => this.handleApiAiResponse(sender, response));
 
             apiaiRequest.on('error', (error) => console.error(error));
             apiaiRequest.end();
@@ -390,7 +390,7 @@ class FacebookBot {
         });
     }
 
-    handleApiAiResponse(response) {
+    handleApiAiResponse(sender, response) {
       // here we receive the response from api.ai's processing
       console.log("\napi.ai processing response:\n", response);
 
@@ -469,10 +469,10 @@ app.post('/webhook/', (req, res) => {
 
 });
 
-
 app.post('/api_ai_response/', (req, res) => {
   try {
-    facebookBot.handleApiAiResponse(res);
+    sender = "TODO"
+    facebookBot.handleApiAiResponse(sender, res);
     return res.status(200).json({
         status: "ok"
     });
