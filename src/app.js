@@ -471,8 +471,19 @@ app.post('/webhook/', (req, res) => {
 
 });
 
+
 app.post('/api_ai_response/', (req, res) => {
-  handleApiAiResponse(res);
+  try {
+    facebookBot.handleApiAiResponse(res);
+    return res.status(200).json({
+        status: "ok"
+    });
+  } catch (err) {
+    return res.status(400).json({
+        status: "error",
+        error: err
+    });
+  }
 }
 
 // ask the bot to print the messages directly
