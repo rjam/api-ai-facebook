@@ -268,27 +268,7 @@ class FacebookBot {
                 });
 
             apiaiRequest.on('response', (response) => {
-                // here we receive the response from api.ai's processing
-                console.log("\napi.ai processing response:\n", response);
-
-                if (this.isDefined(response.result) && this.isDefined(response.result.fulfillment)) {
-                    let responseText = response.result.fulfillment.speech;
-                    let responseData = response.result.fulfillment.data;
-                    let responseMessages = response.result.fulfillment.messages;
-
-                    let action = response.result.action;
-
-                    if (this.isDefined(responseData) && this.isDefined(responseData.facebook)) {
-                        let facebookResponseData = responseData.facebook;
-                        this.doDataResponse(sender, facebookResponseData);
-                    } else if (this.isDefined(responseMessages) && responseMessages.length > 0) {
-                        this.doRichContentResponse(sender, responseMessages);
-                    }
-                    else if (this.isDefined(responseText)) {
-                        this.doTextResponse(sender, responseText);
-                    }
-
-                }
+              handleApiAiResponse(response);
             });
 
             apiaiRequest.on('error', (error) => console.error(error));
@@ -412,6 +392,28 @@ class FacebookBot {
         });
     }
 
+    handleApiAiResponse(response) {
+      // here we receive the response from api.ai's processing
+      console.log("\napi.ai processing response:\n", response);
+
+      if (this.isDefined(response.result) && this.isDefined(response.result.fulfillment)) {
+          let responseText = response.result.fulfillment.speech;
+          let responseData = response.result.fulfillment.data;
+          let responseMessages = response.result.fulfillment.messages;
+
+          let action = response.result.action;
+
+          if (this.isDefined(responseData) && this.isDefined(responseData.facebook)) {
+              let facebookResponseData = responseData.facebook;
+              this.doDataResponse(sender, facebookResponseData);
+          } else if (this.isDefined(responseMessages) && responseMessages.length > 0) {
+              this.doRichContentResponse(sender, responseMessages);
+          }
+          else if (this.isDefined(responseText)) {
+              this.doTextResponse(sender, responseText);
+          }
+      }
+    }
 }
 
 
@@ -468,6 +470,10 @@ app.post('/webhook/', (req, res) => {
     }
 
 });
+
+app.post('/api_ai_response/', (req, res) => {
+  handleApiAiResponse(res);
+}
 
 // ask the bot to print the messages directly
 app.post('/output/', (req, res) => {
