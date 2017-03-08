@@ -267,9 +267,7 @@ class FacebookBot {
                     }
                 });
 
-            apiaiRequest.on('response', (response) => {
-              handleApiAiResponse(response);
-            });
+            apiaiRequest.on('response', (response) => this.handleApiAiResponse(response));
 
             apiaiRequest.on('error', (error) => console.error(error));
             apiaiRequest.end();
@@ -484,7 +482,7 @@ app.post('/api_ai_response/', (req, res) => {
         error: err
     });
   }
-}
+});
 
 // ask the bot to print the messages directly
 app.post('/output/', (req, res) => {
