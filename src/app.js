@@ -471,7 +471,9 @@ app.post('/webhook/', (req, res) => {
 
 app.post('/api_ai_response/', (req, res) => {
   try {
-    sender = "TODO"
+    //FIXME get sender from session id? or add sender to req body?
+
+    sender = "1111389405656211"
     facebookBot.handleApiAiResponse(sender, res);
     return res.status(200).json({
         status: "ok"
